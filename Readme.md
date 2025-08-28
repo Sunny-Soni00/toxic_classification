@@ -1,3 +1,21 @@
+### Prerequisites
+
+-   Python 3.8+
+-   Git
+-   **Git LFS:** This project uses Git LFS to manage the large model file. You must install it before cloning the repository. You can download it from [git-lfs.github.com](https://git-lfs.github.com/).
+
+### Installation
+
+After installing Git LFS, you can clone the repository and install the Python libraries:
+
+```bash
+# Clone the repository (Git LFS will automatically download the model)
+git clone [your-github-repo-url]
+cd [your-repo-name]
+
+# Install Python dependencies
+pip install "fastapi[all]" torch transformers sentencepiece scikit-learn numpy
+
 Automated Content Moderation: A Transformer-based Toxicity Classifier
 This repository contains the source code and trained model for an AI-powered web application designed to detect and classify multiple types of toxicity in text. The project serves as a complete, end-to-end example of a modern NLP pipeline, from data exploration and model fine-tuning to final deployment as a local web service.
 
