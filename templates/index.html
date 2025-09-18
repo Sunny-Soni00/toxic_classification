@@ -3,130 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxicity Classifier</title>
+    <title>Automated Content Moderation AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
-            color: #1c1e21;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .container {
-            background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 700px;
-            text-align: center;
-        }
-        h1 {
-            color: #1c1e21;
-            font-weight: 700;
-            margin-bottom: 25px;
-        }
-        textarea {
-            width: 100%;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #dddfe2;
-            font-size: 16px;
-            margin-top: 15px;
-            box-sizing: border-box;
-            resize: vertical;
-            min-height: 120px;
-            transition: border-color 0.3s;
-        }
-        textarea:focus {
-            border-color: #1877f2;
-            outline: none;
-        }
-        button {
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            font-size: 17px;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #166fe5;
-        }
-        .results-container {
-            margin-top: 30px;
-            text-align: left;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 20px;
-        }
-        .results-title {
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        .info {
-            font-size: 14px;
-            color: #606770;
-            margin-bottom: 20px;
-        }
-        .toxic-tag {
-            display: inline-block;
-            background-color: #fbe0e0;
-            color: #c0392b;
-            padding: 8px 15px;
-            border-radius: 20px;
-            margin: 5px;
-            font-weight: 500;
-        }
-        .not-toxic-message {
-            background-color: #e0fbe2;
-            color: #27ae60;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 500;
-            text-align: center;
+        body { font-family: 'Inter', sans-serif; }
+        .chat-log {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Automated Content Moderation</h1>
-        <form action="/" method="post">
-            <textarea name="text" placeholder="Enter a comment to analyze...">{{ original_text or '' }}</textarea>
-            <br>
-            <button type="submit">Analyze Text</button>
-        </form>
+<body class="bg-slate-50 text-slate-800">
 
-        {% if results %}
-        <div class="results-container">
-            <h2 class="results-title">Analysis Report</h2>
-            <p class="info">Analysis of {{ text_size }} characters of text:</p>
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
 
-            {% if results.values() | sum > 0 %}
-                <div>
-                    {% for label, prediction in results.items() %}
-                        {% if prediction == 1 %}
-                            <span class="toxic-tag">{{ label.replace('_', ' ').title() }}</span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="not-toxic-message">
-                    ✅ This comment is not toxic.
-                </div>
-            {% endif %}
+        <!-- Header Section -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-slate-900">🛡️ Automated Content Moderation AI</h1>
+            <p class="mt-4 text-lg text-slate-600">A showcase of a Transformer-based model fine-tuned to detect and classify toxic language in real-time.</p>
         </div>
-        {% endif %}
+
+        <!-- Interactive Demo Section -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+            <h2 class="text-2xl font-semibold mb-4 text-slate-800">Live Analysis Tool</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Input Column -->
+                <div>
+                    <label for="comment-input" class="block text-sm font-medium text-slate-700 mb-2">Enter a comment to analyze:</label>
+                    <form action="/" method="post">
+                        <textarea name="text" id="comment-input" rows="8" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150" placeholder="e.g., 'You are the worst player I have ever seen...'">{{ original_text or '' }}</textarea>
+                        <button type="submit" class="mt-4 w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                            Analyze Comment
+                        </button>
+                    </form>
+                </div>
+                <!-- Output Column -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Analysis Results:</label>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 min-h-[200px]">
+                        {% if results %}
+                            <div class="w-full space-y-3">
+                                <p class="text-sm text-slate-600 mb-4">Analysis of {{ text_size }} characters of text:</p>
+                                
+                                {% if results.values() | sum > 0 %}
+                                    {% for label, prediction in results.items() %}
+                                        {% set percentage = (prediction * 100) %}
+                                        {% set label_text = label.replace('_', ' ').title() %}
+                                        {% if prediction == 1 %}
+                                            {% set bar_color = 'bg-red-500' %}
+                                            {% set text_color = 'text-slate-800' %}
+                                        {% else %}
+                                            {% set bar_color = 'bg-slate-300' %}
+                                            {% set text_color = 'text-slate-500' %}
+                                        {% endif %}
+                                        
+                                        <div>
+                                            <div class="flex justify-between items-center mb-1">
+                                                <span class="text-sm font-medium text-slate-700">{{ label_text }}</span>
+                                                <span class="text-sm font-semibold {{ text_color }}">{{ percentage }}%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                                <div class="{{ bar_color }} h-2.5 rounded-full" style="width: {{ percentage }}%"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-center">
+                                        <span class="font-semibold">✅ This comment is not toxic.</span>
+                                        <p class="text-sm mt-1">All toxicity indicators are below the threshold.</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="flex items-center justify-center h-full">
+                                <p class="text-slate-500">Results will appear here...</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-World Use Case Section -->
+        <div class="bg-white mt-10 p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+            <h2 class="text-2xl font-semibold mb-2 text-slate-800">Real-World Use Case</h2>
+            <p class="mb-6 text-slate-600">This visual explains how the AI works behind the scenes to moderate an online game's chat, creating a safer environment for players.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 text-red-600">Before: Unmoderated Chat</h3>
+                    <div class="chat-log">[Team Chat]
+----------------------------------
+Player_A: Nice shot! Let's push left.
+Player_B: On my way!
+xX_Gamer_Xx: You are the worst player I have ever seen. Uninstall the game, you idiot. I'm going to find you.
+Player_A: Whoa, chill out.</div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 text-green-600">After: AI Moderation in Action</h3>
+                    <div class="chat-log">[Team Chat]
+----------------------------------
+Player_A: Nice shot! Let's push left.
+Player_B: On my way!
+[System]: Message from xX_Gamer_Xx hidden. Reason: Toxic Language. [Flagged for Review]
+Player_A: Whoa, chill out.</div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>
